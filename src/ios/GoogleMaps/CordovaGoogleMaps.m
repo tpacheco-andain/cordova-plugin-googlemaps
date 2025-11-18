@@ -12,9 +12,6 @@
 
 - (void)pluginInitialize
 {
-
-  self.webView.backgroundColor = [UIColor clearColor];
-  self.webView.opaque = NO;
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pageDidLoad) name:CDVPageDidLoadNotification object:nil];
   dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
     self.executeQueue =  [NSOperationQueue new];
@@ -66,20 +63,28 @@
   self.viewPlugins = [[NSMutableDictionary alloc] init];
 
   self.pluginLayer = [[MyPluginLayer alloc] initWithWebView:self.webView];
-  self.pluginLayer.backgroundColor = [UIColor whiteColor];
+  self.pluginLayer.backgroundColor = [UIColor clearColor];
   self.pluginLayer.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 
-
-  NSArray *subViews = self.viewController.view.subviews;
-  //NSLog(@"--->subViews count=%lu", subViews.count);
-  UIView *view;
-  for (int i = 0; i < [subViews count]; i++) {
-    view = [subViews objectAtIndex:i];
-    //NSLog(@"--->remove i=%d class=%@", i, view.class);
-    [view removeFromSuperview];
-    [self.pluginLayer addSubview: view];
-  }
+  self.pluginLayer.userInteractionEnabled = NO; // Ensure the plugin layer does not intercept touch events
   [self.viewController.view addSubview:self.pluginLayer];
+  [self.viewController.view sendSubviewToBack:self.pluginLayer];
+
+  // Move the plugin layer, after the splash screen is dismissed, to the front
+  // so the plugin layer and the webView is clickable
+  // Read the SplashScreenDelay value from config.xml
+  NSString *splashScreenDelayString = [((CDVViewController *)self.viewController).settings objectForKey:@"splashscreendelay"];
+  // If no SplashScreenDelay ist set, set no delay. Cordova states, that the default value for
+  // iOS is 3000ms, but it seems, when testing it, that the splash screen is hidden, right after the initialization is complete
+  double splashScreenDelay = splashScreenDelayString ? [splashScreenDelayString doubleValue] : 0;
+  // Add some extra delay, to let the splash screen fade out, otherwise it will be hidden, without the animation
+  // This can have the side effect, that the app is not clickable for a short period of time, after the splash screen is dismissed
+  splashScreenDelay += 2000;
+
+  // Move the plugin layer to the front
+  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(splashScreenDelay * NSEC_PER_MSEC)), dispatch_get_main_queue(), ^{
+    [self.viewController.view bringSubviewToFront:self.pluginLayer];
+  });
 }
 - (void) didRotate:(id)sender
 {
