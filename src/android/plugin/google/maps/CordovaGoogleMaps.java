@@ -168,6 +168,7 @@ public class CordovaGoogleMaps extends CordovaPlugin implements ViewTreeObserver
         webView.getView().setBackgroundColor(Color.TRANSPARENT);
         webView.getView().setOverScrollMode(View.OVER_SCROLL_NEVER);
         mPluginLayout = new MyPluginLayout(webView, activity);
+        mPluginLayout.setBackgroundColor(Color.TRANSPARENT);
         mPluginLayout.stopTimer();
 
 
@@ -382,7 +383,7 @@ public class CordovaGoogleMaps extends CordovaPlugin implements ViewTreeObserver
       @Override
       public void run() {
 
-        mPluginLayout.setBackgroundColor(Color.WHITE);
+        mPluginLayout.setBackgroundColor(Color.TRANSPARENT);
 
         Set<String> mapIds = mPluginLayout.pluginOverlays.keySet();
         IPluginView pluginOverlay;
