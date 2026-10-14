@@ -161,8 +161,8 @@
     pluginSV.isRemoved = YES;
     //[pluginSV clear:nil];
     [pluginSV pluginUnload];
-    [cdvViewController.pluginObjects setObject:pluginView forKey:mapId];
-    [cdvViewController.pluginsMap setValue:mapId forKey:mapId];
+    [(NSMutableDictionary *)cdvViewController.pluginObjects setObject:pluginView forKey:mapId];
+    [(NSMutableDictionary *)cdvViewController.pluginsMap setObject:mapId forKey:mapId];
 
     [self.pluginLayer removePluginOverlay:pluginSV.panoramaCtrl];
     pluginSV.panoramaCtrl.view = nil;
@@ -173,8 +173,8 @@
     //[pluginMap clear:nil];
     [pluginMap pluginUnload];
 
-    [cdvViewController.pluginObjects setObject:pluginView forKey:mapId];
-    [cdvViewController.pluginsMap setValue:mapId forKey:mapId];
+    [(NSMutableDictionary *)cdvViewController.pluginObjects setObject:pluginView forKey:mapId];
+    [(NSMutableDictionary *)cdvViewController.pluginsMap setObject:mapId forKey:mapId];
 
     [self.pluginLayer removePluginOverlay:pluginMap.mapCtrl];
 
@@ -189,7 +189,7 @@
 
   [self.viewPlugins removeObjectForKey:mapId];
 
-  [cdvViewController.pluginObjects removeObjectForKey:mapId];
+  [(NSMutableDictionary *)cdvViewController.pluginObjects removeObjectForKey:mapId];
 }
 /**
  * Remove the map
@@ -244,8 +244,8 @@
     if ([pluginMap respondsToSelector:@selector(setCommandDelegate:)]) {
       [pluginMap setCommandDelegate:cdvViewController.commandDelegate];
     }
-    [cdvViewController.pluginObjects setObject:pluginMap forKey:mapId];
-    [cdvViewController.pluginsMap setValue:mapId forKey:mapId];
+    [(NSMutableDictionary *)cdvViewController.pluginObjects setObject:pluginMap forKey:mapId];
+    [(NSMutableDictionary *)cdvViewController.pluginsMap setObject:mapId forKey:mapId];
     [pluginMap pluginInitialize];
 
     [self.viewPlugins setObject:pluginMap forKey:mapId];
@@ -414,8 +414,8 @@
     if ([pluginStreetView respondsToSelector:@selector(setCommandDelegate:)]) {
       [pluginStreetView setCommandDelegate:cdvViewController.commandDelegate];
     }
-    [cdvViewController.pluginObjects setObject:pluginStreetView forKey:panoramaId];
-    [cdvViewController.pluginsMap setValue:panoramaId forKey:panoramaId];
+    [(NSMutableDictionary *)cdvViewController.pluginObjects setObject:pluginStreetView forKey:panoramaId];
+    [(NSMutableDictionary *)cdvViewController.pluginsMap setObject:panoramaId forKey:panoramaId];
     [pluginStreetView pluginInitialize];
 
     [self.viewPlugins setObject:pluginStreetView forKey:panoramaId];

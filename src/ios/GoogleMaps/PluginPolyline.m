@@ -47,8 +47,8 @@
 
   NSString *pluginId = [NSString stringWithFormat:@"%@-polyline", self.mapCtrl.overlayId];
   CDVViewController *cdvViewController = (CDVViewController*)self.viewController;
-  [cdvViewController.pluginObjects removeObjectForKey:pluginId];
-  [cdvViewController.pluginsMap setValue:nil forKey:pluginId];
+  [(NSMutableDictionary *)cdvViewController.pluginObjects removeObjectForKey:pluginId];
+  [(NSMutableDictionary *)cdvViewController.pluginsMap removeObjectForKey:pluginId];
   pluginId = nil;
 }
 

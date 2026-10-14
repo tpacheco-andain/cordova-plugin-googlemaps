@@ -93,8 +93,8 @@
       if ([plugin respondsToSelector:@selector(setCommandDelegate:)]) {
         [plugin setCommandDelegate:cdvViewController.commandDelegate];
       }
-      [cdvViewController.pluginObjects setObject:plugin forKey:pluginId];
-      [cdvViewController.pluginsMap setValue:pluginId forKey:pluginId];
+      [(NSMutableDictionary *)cdvViewController.pluginObjects setObject:plugin forKey:pluginId];
+      [(NSMutableDictionary *)cdvViewController.pluginsMap setObject:pluginId forKey:pluginId];
       [plugin pluginInitialize];
 
       //NSLog(@"--->loadPlugin : %@ className : %@, plugin : %@", pluginId, className, plugin);
@@ -269,8 +269,8 @@
     plugin = [self.mapCtrl.plugins objectForKey:pluginName];
     [plugin pluginUnload];
 
-    [cdvViewController.pluginObjects removeObjectForKey:pluginName];
-    [cdvViewController.pluginsMap setValue:nil forKey:pluginName];
+    [(NSMutableDictionary *)cdvViewController.pluginObjects removeObjectForKey:pluginName];
+    [(NSMutableDictionary *)cdvViewController.pluginsMap removeObjectForKey:pluginName];
     //plugin = nil;
   }
 
